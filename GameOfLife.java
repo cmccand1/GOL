@@ -28,7 +28,7 @@ public class GameOfLife {
                 board[i][j].setOpaque(true);
                 board[i][j].setBorderPainted(false);
                 // Populate 1/2 of the grid at random
-                if (rand.nextFloat() < .75) {
+                if (rand.nextFloat() < .7) {
                     board[i][j].setBackground(Color.BLACK);
                 }
             }
@@ -84,45 +84,43 @@ public class GameOfLife {
         }
         // Top edge cases, non-corner (5 neighbors each)
         else if (i == 0 && j > 0 && j < a[i].length) {
-            if (a[i][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j+1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i][j+1].getBackground() == Color.BLACK) {neighbors++;}
+            for (int y = 0; y <= 1; y++) {
+                for (int x = -1; x <= 1; x++) {
+                    if (a[i+y][j+x].getBackground() == Color.BLACK) {neighbors++;}
+                }
+            } neighbors--;
         }
         // Left side edge cases, non-corner (5 neighbors each)
         else if (j == 0 && i > 0 && i < a[j].length) {
-            if (a[i-1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j+1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i][j+1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j+1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j].getBackground() == Color.BLACK) {neighbors++;}
+            for (int y = -1; y <= 1; y++) {
+                for (int x = 0; x <= 1; x++) {
+                    if (a[i+y][j+x].getBackground() == Color.BLACK) {neighbors++;}
+                }
+            } neighbors--;
         }
         // Bottom edge cases, non-corner (5 neighbors each)
         else if (i == a[j].length - 1 && j > 0 && j < a[i].length) {
-            if (a[i][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j+1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i][j+1].getBackground() == Color.BLACK) {neighbors++;}
+            for (int y = -1; y < 0; y++) {
+                for (int x = -1; x <= 1; x++) {
+                    if (a[i+y][j+x].getBackground() == Color.BLACK) {neighbors++;}
+                }
+            } neighbors--;
         }
         // Right edge cases, non-corner (5 neighbors each)
         else if (j == a[i].length - 1 && i > 0 && i < a[j].length - 1) {
-            if (a[i+1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i+1][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j-1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i-1][j].getBackground() == Color.BLACK) {neighbors++;}
+            for (int y = -1; y <= 1; y++) {
+                for (int x = -1; x <=0; x++) {
+                    if (a[i+y][j+x].getBackground() == Color.BLACK) {neighbors++;}
+                }
+            } neighbors--;
         }
+        // If the cell is the center in a square matrix
         else if (i > 0 && j > 0 && i < a[j].length - 1 && j < a[i].length - 1) {
-            if (a[i][j - 1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i - 1][j - 1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i - 1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i - 1][j + 1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i][j + 1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i + 1][j + 1].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i + 1][j].getBackground() == Color.BLACK) {neighbors++;}
-            if (a[i + 1][j - 1].getBackground() == Color.BLACK) {neighbors++;}
+            for (int y = -1; y <= 1; y++) {
+                for (int x = -1; x <=1; x++) {
+                    if (a[i+y][j+x].getBackground() == Color.BLACK) {neighbors++;}
+                }
+            } neighbors--;
         }
         return neighbors;
     }
@@ -186,7 +184,7 @@ public class GameOfLife {
                 }
             }
         };
-        new Timer(100, listener).start();
+        new Timer(200, listener).start();
 
         // Any live cell with < 2 live neighbours dies
         // Any live cell with 2 or 3 live neighbours lives
